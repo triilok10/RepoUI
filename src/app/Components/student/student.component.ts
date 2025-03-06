@@ -20,6 +20,7 @@ export class StudentComponent implements OnInit {
   showModal = false;
 
   studentForm: FormGroup = new FormGroup({
+    studentID:new FormControl(0),
     firstName: new FormControl('', [Validators.required]),
     lastName: new FormControl(''),
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -87,6 +88,7 @@ export class StudentComponent implements OnInit {
         debugger;
         console.log('Response:', res);
         this.studentForm.patchValue({
+          studentID: res.studentID,
           firstName: res.firstName,
           lastName: res.lastName,
           email: res.email,
