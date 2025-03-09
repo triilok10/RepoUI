@@ -20,7 +20,7 @@ export class StudentComponent implements OnInit {
   showModal = false;
 
   studentForm: FormGroup = new FormGroup({
-    studentID:new FormControl(0),
+    studentID: new FormControl(0),
     firstName: new FormControl('', [Validators.required]),
     lastName: new FormControl(''),
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -86,7 +86,6 @@ export class StudentComponent implements OnInit {
     this.http.get(`${this.url}api/Student/GetRecord?studentID=${studentID}`).subscribe({
       next: (res: any) => {
         debugger;
-        console.log('Response:', res);
         this.studentForm.patchValue({
           studentID: res.studentID,
           firstName: res.firstName,
@@ -97,16 +96,22 @@ export class StudentComponent implements OnInit {
           gender: res.gender,
         });
         this.openModel();
-
-        console.log('st', this.studentForm)
       }
     })
-    alert(studentID);
   }
 
   DeleteStudent(id: any) {
-    debugger;
-    alert(id);
+    this.http.delete(`${this.url}api/Student/DeleteStudent?StudentID=${id}`).subscribe({
+      next: (res: any) => {
+
+        if(res.status ==1){
+          this.students = this.students.filter(student => student.studentID !== id);
+          alert(res.message);
+        }else{
+          alert('error in Deleting');
+        }
+      }
+    })
   }
 
 
